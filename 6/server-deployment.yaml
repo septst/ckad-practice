@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  namespace: ckad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server-deployment
+  template:
+    metadata:
+      namespace: ckad
+      labels:
+        app: server-deployment
+    spec:
+      containers:
+      - name: server-deployment
+        image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: loop
+  labels:
+    name: loop
+spec:
+  containers:
+  - args:
+    - bin/sh
+    - -c
+    - while true; do date; sleep 10; done
+    name: loop
+    image: busybox
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80

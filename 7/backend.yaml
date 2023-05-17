@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend
+  namespace: ckad
+  labels:
+    tier: backend
+    app: nginx
+spec:
+  containers:
+  - name: backend
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+        name: backend-port

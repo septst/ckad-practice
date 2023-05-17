@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: google-ping
+  namespace: ckad
+  labels:
+    job: google-ping
+spec:
+  schedule: '*/2 * * * *'
+  successfulJobsHistoryLimit: 7
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            job: google-ping
+        spec:
+          containers:
+            - name: ping
+              image: nginx
+              command: ['sh', '-c', 'curl google.com']
+              ports:
+                - containerPort: 80
+          restartPolicy: Never

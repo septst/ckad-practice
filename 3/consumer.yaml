@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consumer
+  namespace: ckad
+  labels:
+    name: consumer
+spec:
+  serviceAccount: my-sa
+  containers:
+  - name: consumer
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+    env:
+      - name: API_ENDPOINT
+        valueFrom:
+          configMapKeyRef:
+            key: api_endpoint
+            name: ext-service-configmap
+      - name: USERNAME
+        valueFrom:
+          configMapKeyRef:
+            key: username
+            name: ext-service-configmap
+    volumeMounts:
+      - mountPath: /var/app
+        name: secrets-volume
+        readOnly: true
+  volumes:
+    - name: secrets-volume
+      secret:
+        secretName: ext-service-secret
